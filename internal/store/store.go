@@ -14,8 +14,6 @@ func LoadTasksFromDB() ([]model.Task, error) {
 
 	isFilePresent := utils.CheckIfFileExists("db.json")
 
-	fmt.Println("isFilePresent", isFilePresent)
-
 	if !isFilePresent {
 		return []model.Task{}, nil
 	}
@@ -29,6 +27,7 @@ func LoadTasksFromDB() ([]model.Task, error) {
 
 	err = json.Unmarshal(data, &taskList)
 	if err != nil {
+		fmt.Println("ERROR: db.json contains corrupted data. Please backup and delete db.json file to continue.")
 		log.Fatal(err)
 	}
 
@@ -49,5 +48,4 @@ func SaveTasksToDB(updated []model.Task) {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Saved to local db.json file")
 }
